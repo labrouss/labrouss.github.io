@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Labrouss - Portfolio</title>
+    <title>Your Name - Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
@@ -77,7 +77,7 @@
         /* Navigation */
         nav {
             position: fixed;
-            top: 0;
+            top: 35px;
             width: 100%;
             padding: 1.5rem 5%;
             background: rgba(10, 10, 15, 0.85);
@@ -135,7 +135,7 @@
         main {
             position: relative;
             z-index: 2;
-            padding-top: 80px;
+            padding-top: 115px;
         }
 
         section {
@@ -562,6 +562,135 @@
             transition: transform 0.1s;
         }
 
+        /* News Ticker Ribbon */
+        .news-ticker {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 35px;
+            background: linear-gradient(90deg, 
+                rgba(255, 0, 255, 0.2) 0%, 
+                rgba(0, 255, 255, 0.2) 50%, 
+                rgba(255, 0, 255, 0.2) 100%);
+            border-bottom: 2px solid var(--primary);
+            overflow: hidden;
+            z-index: 10000;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .news-ticker:hover {
+            background: linear-gradient(90deg, 
+                rgba(255, 0, 255, 0.3) 0%, 
+                rgba(0, 255, 255, 0.3) 50%, 
+                rgba(255, 0, 255, 0.3) 100%);
+            height: 40px;
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+        }
+
+        .news-ticker::before {
+            content: 'BREAKING';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            padding: 0 1.5rem;
+            background: var(--secondary);
+            color: var(--bg-dark);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            display: flex;
+            align-items: center;
+            z-index: 2;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .news-ticker-content {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            white-space: nowrap;
+            animation: scroll-left 40s linear infinite;
+            padding-left: 100%;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--text);
+        }
+
+        .news-ticker:hover .news-ticker-content {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll-left {
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
+        }
+
+        .news-item {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 3rem;
+            padding-left: 8rem;
+        }
+
+        .news-item::before {
+            content: '▸';
+            color: var(--primary);
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .news-item:first-child {
+            padding-left: 0;
+        }
+
+        /* Adjust main content for ticker */
+        nav {
+            top: 35px;
+        }
+
+        main {
+            padding-top: 115px;
+        }
+
+        @media (max-width: 768px) {
+            .news-ticker {
+                height: 30px;
+            }
+
+            .news-ticker:hover {
+                height: 35px;
+            }
+
+            .news-ticker::before {
+                padding: 0 1rem;
+                font-size: 0.65rem;
+            }
+
+            .news-ticker-content {
+                font-size: 0.85rem;
+            }
+
+            nav {
+                top: 30px;
+            }
+
+            main {
+                padding-top: 110px;
+            }
+        }
+
         /* Music Control Button */
         .music-control {
             position: fixed;
@@ -614,6 +743,19 @@
     </style>
 </head>
 <body>
+    <div class="news-ticker" id="newsTicker">
+        <div class="news-ticker-content">
+            <span class="news-item">Portfolio updated with latest projects and achievements</span>
+            <span class="news-item">New AI/ML project launching Q2 2026</span>
+            <span class="news-item">Speaking at Tech Conference next month</span>
+            <span class="news-item">Open source contributions exceeding 1000+ commits</span>
+            <span class="news-item">Featured in Developer Spotlight Magazine</span>
+            <span class="news-item">Portfolio updated with latest projects and achievements</span>
+            <span class="news-item">New AI/ML project launching Q2 2026</span>
+            <span class="news-item">Speaking at Tech Conference next month</span>
+        </div>
+    </div>
+
     <div class="bg-grid"></div>
     <div class="scanline"></div>
     <div class="cursor-glow" id="cursorGlow"></div>
@@ -631,7 +773,7 @@
     <main>
         <section id="hero">
             <div class="glitch-wrapper">
-                <h1 class="glitch" data-text="Labrouss">Labrouss</h1>
+                <h1 class="glitch" data-text="YOUR NAME">YOUR NAME</h1>
             </div>
             <p class="subtitle">Developer • Designer • Innovator</p>
             <a href="#projects" class="cta-button">View Projects</a>
@@ -700,7 +842,7 @@
             <div class="contact-grid">
                 <div class="contact-item fade-in">
                     <div class="contact-label">Email</div>
-                    <a href="mailto:your.email@example.com">your.email@example.com</a>
+                    <a href="/cdn-cgi/l/email-protection#20594f55520e454d41494c604558414d504c450e434f4d"><span class="__cf_email__" data-cfemail="354c5a40471b5058545c5975504d54584559501b565a58">[email&#160;protected]</span></a>
                 </div>
                 <div class="contact-item fade-in">
                     <div class="contact-label">GitHub</div>
@@ -715,10 +857,10 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Labrouss. Designed with futuristic precision.</p>
+        <p>&copy; 2026 Your Name. Designed with futuristic precision.</p>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // 8-bit Amiga-style Music Generator
         class ChiptunePlayer {
             constructor() {
@@ -875,14 +1017,23 @@
                     this.init();
                 }
                 
+                // Resume AudioContext if suspended (browser autoplay policy)
+                if (this.audioContext.state === 'suspended') {
+                    this.audioContext.resume().then(() => {
+                        console.log('🎵 Chiptune music started!');
+                    });
+                }
+                
                 this.isPlaying = true;
                 this.currentStep = 0;
                 this.nextNoteTime = this.audioContext.currentTime;
                 this.scheduleNotes();
+                console.log('🎵 Music player started');
             }
             
             stop() {
                 this.isPlaying = false;
+                console.log('🔇 Music player stopped');
             }
             
             toggle() {
@@ -898,24 +1049,37 @@
         const musicPlayer = new ChiptunePlayer();
         const musicControl = document.getElementById('musicControl');
         
-        // Auto-start music on first user interaction
+        // News ticker click handler
+        const newsTicker = document.getElementById('newsTicker');
+        newsTicker.addEventListener('click', () => {
+            window.location.href = 'news.html';
+        });
+        
+        // Track if music has been started
         let musicStarted = false;
-        const startMusic = () => {
+        
+        // Music control button - primary control
+        musicControl.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent triggering auto-start
+            
             if (!musicStarted) {
+                musicPlayer.start();
+                musicStarted = true;
+                musicControl.classList.add('playing');
+            } else {
+                musicPlayer.toggle();
+                musicControl.classList.toggle('playing');
+            }
+        });
+        
+        // Auto-start music on first user interaction (excluding music button)
+        const startMusic = (e) => {
+            if (!musicStarted && e.target !== musicControl && !musicControl.contains(e.target)) {
                 musicPlayer.start();
                 musicStarted = true;
                 musicControl.classList.add('playing');
             }
         };
-        
-        // Music control button
-        musicControl.addEventListener('click', () => {
-            musicPlayer.toggle();
-            musicControl.classList.toggle('playing');
-            if (!musicStarted) {
-                musicStarted = true;
-            }
-        });
         
         document.addEventListener('click', startMusic, { once: true });
         document.addEventListener('keydown', startMusic, { once: true });
@@ -948,13 +1112,4 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-    </script>
-</body>
-</html>
+                    entry.target.style.opacity = '
