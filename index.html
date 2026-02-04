@@ -1063,20 +1063,20 @@
         // Initialize music player
         const musicPlayer = new ChiptunePlayer();
         const musicControl = document.getElementById('musicControl');
-        
-        // News ticker click handler - with higher priority
         const newsTicker = document.getElementById('newsTicker');
-        newsTicker.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent other click handlers
-            window.location.href = 'news.html';
-        });
         
-        // Track if music has been started
         let musicStarted = false;
+        let autoStartDone = false;
         
-        // Music control button - primary control
+        // News ticker click handler
+        newsTicker.addEventListener('click', (e) => {
+            console.log('News ticker clicked');
+            window.location.href = 'news.html';
+        }, true); // Use capture phase
+        
+        // Music control button handler
         musicControl.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent triggering auto-start
+            console.log('Music button clicked');
             
             if (!musicStarted) {
                 musicPlayer.start();
@@ -1086,23 +1086,48 @@
                 musicPlayer.toggle();
                 musicControl.classList.toggle('playing');
             }
-        });
+        }, true); // Use capture phase
         
-        // Auto-start music on first user interaction (excluding music button and news ticker)
-        const startMusic = (e) => {
-            const isNewsTickerClick = newsTicker.contains(e.target);
-            const isMusicButtonClick = musicControl === e.target || musicControl.contains(e.target);
+        // Auto-start music on any other click (only once)
+        document.addEventListener('click', (e) => {
+            // Don't auto-start if clicking on ticker or music button
+            if (autoStartDone) return;
+            if (newsTicker.contains(e.target)) return;
+            if (musicControl.contains(e.target)) return;
             
-            if (!musicStarted && !isNewsTickerClick && !isMusicButtonClick) {
+            if (!musicStarted) {
+                console.log('Auto-starting music');
                 musicPlayer.start();
                 musicStarted = true;
                 musicControl.classList.add('playing');
+                autoStartDone = true;
             }
-        };
+        });
         
-        document.addEventListener('click', startMusic, { once: true });
-        document.addEventListener('keydown', startMusic, { once: true });
-        document.addEventListener('touchstart', startMusic, { once: true });
+        // Also try keyboard and touch
+        document.addEventListener('keydown', (e) => {
+            if (!musicStarted && !autoStartDone) {
+                console.log('Auto-starting music from keyboard');
+                musicPlayer.start();
+                musicStarted = true;
+                musicControl.classList.add('playing');
+                autoStartDone = true;
+            }
+        }, { once: true });
+        
+        document.addEventListener('touchstart', (e) => {
+            if (autoStartDone) return;
+            if (newsTicker.contains(e.target)) return;
+            if (musicControl.contains(e.target)) return;
+            
+            if (!musicStarted) {
+                console.log('Auto-starting music from touch');
+                musicPlayer.start();
+                musicStarted = true;
+                musicControl.classList.add('playing');
+                autoStartDone = true;
+            }
+        }, { once: true });
 
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
