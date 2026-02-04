@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News & Updates - Your Name</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00ffff;
+            --secondary: #ff00ff;
+            --accent: #00ff88;
+            --bg-dark: #0a0a0f;
+            --bg-darker: #050508;
+            --text: #e0e0ff;
+            --text-dim: #8888aa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated Background */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(var(--primary)22 1px, transparent 1px),
+                linear-gradient(90deg, var(--primary)22 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridScroll 20s linear infinite;
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        @keyframes gridScroll {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(transparent 50%, rgba(0, 255, 255, 0.03) 50%);
+            background-size: 100% 4px;
+            z-index: 1;
+            pointer-events: none;
+            animation: scanlines 8s linear infinite;
+        }
+
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 2rem 5%;
+            background: rgba(10, 10, 15, 0.9);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* Main Content */
+        main {
+            position: relative;
+            z-index: 2;
+            padding: 4rem 10%;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: 6px;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+            text-transform: uppercase;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .news-grid {
+            display: grid;
+            gap: 2.5rem;
+        }
+
+        .news-article {
+            background: rgba(10, 10, 15, 0.6);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            padding: 2.5rem;
+            position: relative;
+            transition: all 0.4s;
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .news-article:nth-child(1) { animation-delay: 0.1s; }
+        .news-article:nth-child(2) { animation-delay: 0.2s; }
+        .news-article:nth-child(3) { animation-delay: 0.3s; }
+        .news-article:nth-child(4) { animation-delay: 0.4s; }
+        .news-article:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .news-article::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+        }
+
+        .news-article:hover {
+            border-color: var(--primary);
+            box-shadow: 0 5px 30px rgba(0, 255, 255, 0.2);
+            transform: translateX(10px);
+        }
+
+        .news-date {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent);
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .news-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .news-content {
+            color: var(--text);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .news-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--primary);
+            padding: 0.3rem 1rem;
+            font-size: 0.8rem;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg-darker);
+            border-top: 1px solid var(--primary);
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 3rem 5%;
+            }
+
+            .news-article {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    <div class="scanline"></div>
+
+    <header>
+        <a href="index.html" class="back-button">← Back to Portfolio</a>
+    </header>
+
+    <main>
+        <h1>News & Updates</h1>
+        
+        <div class="news-grid">
+            <article class="news-article">
+                <div class="news-date">February 04, 2026</div>
+                <h2 class="news-title">Portfolio Updated with Latest Projects</h2>
+                <p class="news-content">
+                    Excited to announce the latest update to my portfolio featuring three major projects completed in Q4 2025. Each project showcases advanced implementations of modern web technologies, AI integration, and cloud-native architectures. The new portfolio design features a futuristic cyberpunk aesthetic with interactive elements and real-time generated chiptune music.
+                </p>
+                <div class="news-tags">
+                    <span class="tag">Portfolio</span>
+                    <span class="tag">Web Development</span>
+                    <span class="tag">UI/UX</span>
+                </div>
+            </article>
+
+            <article class="news-article">
+                <div class="news-date">January 28, 2026</div>
+                <h2 class="news-title">New AI/ML Project Launching Q2 2026</h2>
+                <p class="news-content">
+                    Currently developing an innovative machine learning platform that will revolutionize data analysis workflows. The project leverages cutting-edge transformer architectures and implements custom training pipelines for domain-specific applications. Beta testing begins in March with a public launch scheduled for May 2026.
+                </p>
+                <div class="news-tags">
+                    <span class="tag">AI/ML</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">TensorFlow</span>
+                </div>
+            </article>
+
+            <article class="news-article">
+                <div class="news-date">January 15, 2026</div>
+                <h2 class="news-title">Speaking at Tech Conference Next Month</h2>
+                <p class="news-content">
+                    Honored to be selected as a keynote speaker at the upcoming Future Tech Summit 2026. My presentation will cover "Building Resilient Microservices: Lessons from Production." The talk will dive deep into real-world challenges, solutions, and best practices for designing and maintaining distributed systems at scale.
+                </p>
+                <div class="news-tags">
+                    <span class="tag">Conference</span>
+                    <span class="tag">Public Speaking</span>
+                    <span class="tag">Microservices</span>
+                </div>
+            </article>
+
+            <article class="news-article">
+                <div class="news-date">December 20, 2025</div>
+                <h2 class="news-title">Open Source Contributions Milestone</h2>
+                <p class="news-content">
+                    Reached 1000+ commits across various open source projects this year! Major contributions include enhancements to popular React libraries, bug fixes in Node.js ecosystem tools, and documentation improvements for emerging frameworks. Committed to continuing active participation in the open source community throughout 2026.
+                </p>
+                <div class="news-tags">
+                    <span class="tag">Open Source</span>
+                    <span class="tag">GitHub</span>
+                    <span class="tag">Community</span>
+                </div>
+            </article>
+
+            <article class="news-article">
+                <div class="news-date">December 01, 2025</div>
+                <h2 class="news-title">Featured in Developer Spotlight Magazine</h2>
+                <p class="news-content">
+                    Thrilled to be featured in this month's Developer Spotlight Magazine! The article covers my journey from learning to code to building production-scale applications, and discusses the importance of continuous learning in the rapidly evolving tech landscape. Read about my approach to problem-solving and tips for aspiring developers.
+                </p>
+                <div class="news-tags">
+                    <span class="tag">Press</span>
+                    <span class="tag">Interview</span>
+                    <span class="tag">Career</span>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Your Name. Designed with futuristic precision.</p>
+    </footer>
+</body>
+</html>
