@@ -1,101 +1,166 @@
 <!DOCTYPE html>
-<html>
-<body style="background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden;">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Amiga Demo - Time Locked</title>
+    <style>
+        body { background: #050505; color: white; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        canvas { background: #000; box-shadow: 0 0 20px rgba(0,255,255,0.2); border: 2px solid #333; cursor: pointer; }
+        .info { margin-top: 15px; color: #666; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div style="margin-bottom: 10px;">CLICK CANVAS TO START / STOP</div>
     <canvas id="demoCanvas"></canvas>
+    <div class="info">50 FPS LOCK | DELTA TIME | 3D PROJECTION | SINE SCROLLER</div>
 
 <script>
+/**
+ * AMIGA STYLE DEMO - REFINED VERSION
+ */
 const canvas = document.getElementById('demoCanvas');
 const ctx = canvas.getContext('2d');
-canvas.width = 400; canvas.height = 255;
-canvas.style.width = '800px'; 
+
+// Low resolution upscaled for the "Chunky" look
+canvas.width = 320; 
+canvas.height = 240;
+canvas.style.width = '640px'; 
+canvas.style.height = '480px';
 canvas.style.imageRendering = 'pixelated';
 
-// --- Assets & State ---
+// --- Demo State ---
 let frame = 0;
-let beat = 0;
-const message = "   *** AMIGA LIVES! *** TYPESCRIPT POWER... GREETINGS TO THE SCENE...   ";
-const stars = Array.from({length: 100}, () => ({ x: Math.random()*400-200, y: Math.random()*255-127, z: Math.random()*400 }));
+let lastTime = performance.now();
+let accumulator = 0;
+const FPS = 50; // Classic PAL target
+const step = 1000 / FPS;
+let running = false;
 
-// --- 3D Cube Points ---
-const points = [
+// --- 3D & Visual Data ---
+const message = "      *** AMIGA PRIDE *** CODED IN TYPESCRIPT...  LOCKED AT 50FPS...  GREETINGS TO ALL DEMOSCENERS!      ";
+let scrollX = canvas.width;
+const stars = Array.from({length: 80}, () => ({ x: Math.random()*400-200, y: Math.random()*300-150, z: Math.random()*400 }));
+
+const cubePoints = [
     [-40,-40,-40],[40,-40,-40],[40,40,-40],[-40,40,-40],
     [-40,-40,40],[40,-40,40],[40,40,40],[-40,40,40]
 ];
-const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+const cubeEdges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
 
-// --- Audio Engine ---
+// --- Audio ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function playTone(freq, type, decay) {
-    const osc = audioCtx.createOscillator();
+function playBeep(f, d, vol = 0.1) {
+    const o = audioCtx.createOscillator();
     const g = audioCtx.createGain();
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + decay);
-    osc.connect(g); g.connect(audioCtx.destination);
-    osc.start(); osc.stop(audioCtx.currentTime + decay);
+    o.type = 'square';
+    o.frequency.setValueAtTime(f, audioCtx.currentTime);
+    g.gain.setValueAtTime(vol, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + d);
 }
 
-// --- Main Loop ---
-function draw() {
+// --- Logic Update (Fixed Time Step) ---
+function update() {
     frame++;
-    // 1. "Copper" Background (Plasma)
-    for(let i=0; i<255; i++) {
-        const r = Math.sin(i/20 + frame/10) * 64 + 64;
-        ctx.fillStyle = `rgb(${r}, 20, 50)`;
-        ctx.fillRect(0, i, 400, 1);
-    }
+    scrollX -= 1.5;
+    if (scrollX < -message.length * 15) scrollX = canvas.width;
 
-    // 2. Starfield
-    ctx.fillStyle = "#fff";
+    // Starfield update
     stars.forEach(s => {
-        s.z -= 2; if(s.z <= 0) s.z = 400;
-        const k = 128/s.z;
-        ctx.fillRect(200 + s.x*k, 127 + s.y*k, 2, 2);
+        s.z -= 3;
+        if (s.z <= 0) s.z = 400;
     });
 
-    // 3. 3D Wireframe Cube (Hardwired style)
-    const angle = frame / 20;
-    const rotated = points.map(p => {
+    // Audio beat (Classic 4/4)
+    if (frame % 12 === 0) {
+        const beat = (frame / 12) % 4;
+        if (beat === 0) playBeep(60, 0.2, 0.3); // Kick
+        if (beat === 2) playBeep(200, 0.1, 0.1); // Snare
+    }
+}
+
+// --- Rendering ---
+function render() {
+    // 1. Plasma Background (Simulating Copper)
+    for (let y = 0; y < canvas.height; y++) {
+        const c = Math.sin(y / 15 + frame / 10) * 40 + 40;
+        ctx.fillStyle = `rgb(0, ${c/2}, ${c})`;
+        ctx.fillRect(0, y, canvas.width, 1);
+    }
+
+    // 2. Stars
+    ctx.fillStyle = "white";
+    stars.forEach(s => {
+        const k = 128 / s.z;
+        const px = 160 + s.x * k;
+        const py = 120 + s.y * k;
+        const size = (1 - s.z / 400) * 3;
+        ctx.fillRect(px, py, size, size);
+    });
+
+    // 3. 3D Cube
+    const angle = frame * 0.03;
+    const projected = cubePoints.map(p => {
+        // Rotation math
         let x = p[0], y = p[1], z = p[2];
-        // Rotate Y
-        let nx = x * Math.cos(angle) - z * Math.sin(angle);
-        let nz = x * Math.sin(angle) + z * Math.cos(angle);
-        // Rotate X
-        let ny = y * Math.cos(angle*0.7) - nz * Math.sin(angle*0.7);
-        nz = y * Math.sin(angle*0.7) + nz * Math.cos(angle*0.7);
-        const k = 200 / (nz + 200);
-        return [nx * k + 200, ny * k + 127];
+        let tx = x * Math.cos(angle) - z * Math.sin(angle);
+        let tz = x * Math.sin(angle) + z * Math.cos(angle);
+        let ty = y * Math.cos(angle * 0.5) - tz * Math.sin(angle * 0.5);
+        tz = y * Math.sin(angle * 0.5) + tz * Math.cos(angle * 0.5);
+        
+        const k = 150 / (tz + 200);
+        return [tx * k + 160, ty * k + 100];
     });
 
     ctx.strokeStyle = "#0ff";
-    edges.forEach(e => {
+    ctx.lineWidth = 2;
+    cubeEdges.forEach(e => {
         ctx.beginPath();
-        ctx.moveTo(rotated[e[0]][0], rotated[e[0]][1]);
-        ctx.lineTo(rotated[e[1]][0], rotated[e[1]][1]);
+        ctx.moveTo(projected[e[0]][0], projected[e[0]][1]);
+        ctx.lineTo(projected[e[1]][0], projected[e[1]][1]);
         ctx.stroke();
     });
 
-    // 4. Sine Scroller
-    ctx.font = "20px monospace";
+    // 4. Scroller
+    ctx.font = "bold 16px monospace";
     ctx.fillStyle = "#fff";
-    for(let i=0; i<message.length; i++) {
-        const x = (frame * -2 + i*20) % 1000 + 400;
-        const y = 200 + Math.sin(x/50 + frame/10) * 30;
-        ctx.fillText(message[i], x, y);
+    for (let i = 0; i < message.length; i++) {
+        const x = scrollX + (i * 14);
+        const y = 220 + Math.sin(x / 40 + frame / 10) * 15;
+        if (x > -20 && x < canvas.width) ctx.fillText(message[i], x, y);
     }
 
-    // 5. Audio Beat Sync
-    if(frame % 20 === 0) {
-        beat++;
-        playTone(60, 'triangle', 0.2); // Kick
-        if(beat % 4 === 2) playTone(800, 'square', 0.05); // Snare
-    }
-
-    requestAnimationFrame(draw);
+    // 5. "Raster Bar" Debugger (White line on left)
+    // On Amiga, the length of this bar showed CPU usage.
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, 4, (accumulator / step) * canvas.height);
 }
 
-// Start on click (Browser security)
-window.onclick = () => { audioCtx.resume(); draw(); };
+function loop(t) {
+    if (!running) return;
+    
+    const deltaTime = t - lastTime;
+    lastTime = t;
+    accumulator += deltaTime;
+
+    while (accumulator >= step) {
+        update();
+        accumulator -= step;
+    }
+
+    render();
+    requestAnimationFrame(loop);
+}
+
+canvas.addEventListener('click', () => {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    running = !running;
+    if (running) {
+        lastTime = performance.now();
+        requestAnimationFrame(loop);
+    }
+});
 </script>
 </body>
 </html>
