@@ -581,6 +581,21 @@
             backdrop-filter: blur(10px);
         }
 
+        .news-ticker::after {
+            content: 'CLICK FOR MORE ▸';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent);
+            opacity: 0.7;
+            animation: blink 2s ease-in-out infinite;
+        }
+
         .news-ticker:hover {
             background: linear-gradient(90deg, 
                 rgba(255, 0, 255, 0.3) 0%, 
@@ -1049,9 +1064,10 @@
         const musicPlayer = new ChiptunePlayer();
         const musicControl = document.getElementById('musicControl');
         
-        // News ticker click handler
+        // News ticker click handler - with higher priority
         const newsTicker = document.getElementById('newsTicker');
-        newsTicker.addEventListener('click', () => {
+        newsTicker.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent other click handlers
             window.location.href = 'news.html';
         });
         
@@ -1072,9 +1088,12 @@
             }
         });
         
-        // Auto-start music on first user interaction (excluding music button)
+        // Auto-start music on first user interaction (excluding music button and news ticker)
         const startMusic = (e) => {
-            if (!musicStarted && e.target !== musicControl && !musicControl.contains(e.target)) {
+            const isNewsTickerClick = newsTicker.contains(e.target);
+            const isMusicButtonClick = musicControl === e.target || musicControl.contains(e.target);
+            
+            if (!musicStarted && !isNewsTickerClick && !isMusicButtonClick) {
                 musicPlayer.start();
                 musicStarted = true;
                 musicControl.classList.add('playing');
