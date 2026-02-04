@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<body style="background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden;">
+    <canvas id="demoCanvas"></canvas>
+
+<script>
+const canvas = document.getElementById('demoCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = 400; canvas.height = 255;
+canvas.style.width = '800px'; 
+canvas.style.imageRendering = 'pixelated';
+
+// --- Assets & State ---
+let frame = 0;
+let beat = 0;
+const message = "   *** AMIGA LIVES! *** TYPESCRIPT POWER... GREETINGS TO THE SCENE...   ";
+const stars = Array.from({length: 100}, () => ({ x: Math.random()*400-200, y: Math.random()*255-127, z: Math.random()*400 }));
+
+// --- 3D Cube Points ---
+const points = [
+    [-40,-40,-40],[40,-40,-40],[40,40,-40],[-40,40,-40],
+    [-40,-40,40],[40,-40,40],[40,40,40],[-40,40,40]
+];
+const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+
+// --- Audio Engine ---
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function playTone(freq, type, decay) {
+    const osc = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    g.gain.linearRampToValueAtTime(0, audioCtx.currentTime + decay);
+    osc.connect(g); g.connect(audioCtx.destination);
+    osc.start(); osc.stop(audioCtx.currentTime + decay);
+}
+
+// --- Main Loop ---
+function draw() {
+    frame++;
+    // 1. "Copper" Background (Plasma)
+    for(let i=0; i<255; i++) {
+        const r = Math.sin(i/20 + frame/10) * 64 + 64;
+        ctx.fillStyle = `rgb(${r}, 20, 50)`;
+        ctx.fillRect(0, i, 400, 1);
+    }
+
+    // 2. Starfield
+    ctx.fillStyle = "#fff";
+    stars.forEach(s => {
+        s.z -= 2; if(s.z <= 0) s.z = 400;
+        const k = 128/s.z;
+        ctx.fillRect(200 + s.x*k, 127 + s.y*k, 2, 2);
+    });
+
+    // 3. 3D Wireframe Cube (Hardwired style)
+    const angle = frame / 20;
+    const rotated = points.map(p => {
+        let x = p[0], y = p[1], z = p[2];
+        // Rotate Y
+        let nx = x * Math.cos(angle) - z * Math.sin(angle);
+        let nz = x * Math.sin(angle) + z * Math.cos(angle);
+        // Rotate X
+        let ny = y * Math.cos(angle*0.7) - nz * Math.sin(angle*0.7);
+        nz = y * Math.sin(angle*0.7) + nz * Math.cos(angle*0.7);
+        const k = 200 / (nz + 200);
+        return [nx * k + 200, ny * k + 127];
+    });
+
+    ctx.strokeStyle = "#0ff";
+    edges.forEach(e => {
+        ctx.beginPath();
+        ctx.moveTo(rotated[e[0]][0], rotated[e[0]][1]);
+        ctx.lineTo(rotated[e[1]][0], rotated[e[1]][1]);
+        ctx.stroke();
+    });
+
+    // 4. Sine Scroller
+    ctx.font = "20px monospace";
+    ctx.fillStyle = "#fff";
+    for(let i=0; i<message.length; i++) {
+        const x = (frame * -2 + i*20) % 1000 + 400;
+        const y = 200 + Math.sin(x/50 + frame/10) * 30;
+        ctx.fillText(message[i], x, y);
+    }
+
+    // 5. Audio Beat Sync
+    if(frame % 20 === 0) {
+        beat++;
+        playTone(60, 'triangle', 0.2); // Kick
+        if(beat % 4 === 2) playTone(800, 'square', 0.05); // Snare
+    }
+
+    requestAnimationFrame(draw);
+}
+
+// Start on click (Browser security)
+window.onclick = () => { audioCtx.resume(); draw(); };
+</script>
+</body>
+</html>
