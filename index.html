@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Portfolio</title>
+    <title>News & Updates - Your Name</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
@@ -59,10 +59,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                transparent 50%, 
-                rgba(0, 255, 255, 0.03) 50%
-            );
+            background: linear-gradient(transparent 50%, rgba(0, 255, 255, 0.03) 50%);
             background-size: 100% 4px;
             z-index: 1;
             pointer-events: none;
@@ -74,97 +71,50 @@
             100% { transform: translateY(4px); }
         }
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 5%;
-            background: rgba(10, 10, 15, 0.85);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--primary);
-            z-index: 1000;
-            animation: slideDown 0.8s ease-out;
+        /* Header */
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 2rem 5%;
+            background: rgba(10, 10, 15, 0.9);
+            border-bottom: 2px solid var(--primary);
         }
 
-        @keyframes slideDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: var(--text);
-            text-decoration: none;
+        .back-button {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
             font-family: 'Orbitron', sans-serif;
             font-weight: 700;
-            font-size: 0.95rem;
             letter-spacing: 2px;
             text-transform: uppercase;
-            position: relative;
-            transition: color 0.3s;
+            text-decoration: none;
+            transition: all 0.3s;
         }
 
-        nav a::before {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            transition: width 0.4s ease;
+        .back-button:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px var(--primary);
         }
 
-        nav a:hover {
-            color: var(--primary);
-        }
-
-        nav a:hover::before {
-            width: 100%;
-        }
-
-        /* Main Container */
+        /* Main Content */
         main {
             position: relative;
             z-index: 2;
-            padding-top: 80px;
-        }
-
-        section {
+            padding: 4rem 10%;
             min-height: 100vh;
-            padding: 5rem 10%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        /* Hero Section */
-        #hero {
-            align-items: center;
-            text-align: center;
-            position: relative;
-        }
-
-        .glitch-wrapper {
-            position: relative;
-            display: inline-block;
         }
 
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
             font-weight: 900;
-            letter-spacing: 8px;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+            letter-spacing: 6px;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
             background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -178,231 +128,64 @@
             50% { background-position: 100% 50%; }
         }
 
-        .glitch {
-            position: relative;
-        }
-
-        .glitch::before,
-        .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-dark);
-        }
-
-        .glitch::before {
-            left: 2px;
-            text-shadow: -2px 0 var(--secondary);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
-        }
-
-        .glitch::after {
-            left: -2px;
-            text-shadow: -2px 0 var(--primary);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim2 5s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch-anim {
-            0% { clip: rect(10px, 9999px, 31px, 0); }
-            20% { clip: rect(85px, 9999px, 40px, 0); }
-            40% { clip: rect(45px, 9999px, 98px, 0); }
-            60% { clip: rect(12px, 9999px, 59px, 0); }
-            80% { clip: rect(69px, 9999px, 26px, 0); }
-            100% { clip: rect(32px, 9999px, 73px, 0); }
-        }
-
-        @keyframes glitch-anim2 {
-            0% { clip: rect(65px, 9999px, 19px, 0); }
-            20% { clip: rect(29px, 9999px, 94px, 0); }
-            40% { clip: rect(76px, 9999px, 43px, 0); }
-            60% { clip: rect(38px, 9999px, 81px, 0); }
-            80% { clip: rect(51px, 9999px, 67px, 0); }
-            100% { clip: rect(14px, 9999px, 22px, 0); }
-        }
-
-        .subtitle {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
-            color: var(--text-dim);
-            letter-spacing: 4px;
-            margin-bottom: 3rem;
-            text-transform: uppercase;
-            font-weight: 300;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 3rem;
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s;
-            cursor: pointer;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--primary);
-            transition: left 0.4s;
-            z-index: -1;
-        }
-
-        .cta-button:hover {
-            color: var(--bg-dark);
-            box-shadow: 0 0 30px var(--primary);
-        }
-
-        .cta-button:hover::before {
-            left: 0;
-        }
-
-        /* About Section */
-        #about {
-            background: linear-gradient(135deg, rgba(0, 255, 255, 0.03) 0%, transparent 100%);
-        }
-
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 700;
-            letter-spacing: 4px;
-            margin-bottom: 3rem;
-            color: var(--primary);
-            text-transform: uppercase;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), transparent);
-        }
-
-        .about-content {
+        .news-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-top: 2rem;
+            gap: 2.5rem;
         }
 
-        .about-text {
-            font-size: 1.2rem;
-            line-height: 2;
-            color: var(--text);
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-        }
-
-        .skill-card {
-            background: rgba(0, 255, 255, 0.05);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            padding: 1.5rem;
-            text-align: center;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
-            transition: left 0.6s;
-        }
-
-        .skill-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-            transform: translateY(-5px);
-        }
-
-        .skill-card:hover::before {
-            left: 100%;
-        }
-
-        /* Projects Section */
-        #projects {
-            background: linear-gradient(135deg, transparent 0%, rgba(255, 0, 255, 0.03) 100%);
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-
-        .project-card {
-            background: rgba(10, 10, 15, 0.8);
+        .news-article {
+            background: rgba(10, 10, 15, 0.6);
             border: 1px solid rgba(0, 255, 255, 0.3);
             padding: 2.5rem;
             position: relative;
-            overflow: hidden;
             transition: all 0.4s;
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
         }
 
-        .project-card::before {
+        .news-article:nth-child(1) { animation-delay: 0.1s; }
+        .news-article:nth-child(2) { animation-delay: 0.2s; }
+        .news-article:nth-child(3) { animation-delay: 0.3s; }
+        .news-article:nth-child(4) { animation-delay: 0.4s; }
+        .news-article:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .news-article::before {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent), var(--primary));
-            background-size: 400% 400%;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.4s;
-            animation: gradientRotate 8s ease infinite;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
         }
 
-        @keyframes gradientRotate {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        .news-article:hover {
+            border-color: var(--primary);
+            box-shadow: 0 5px 30px rgba(0, 255, 255, 0.2);
+            transform: translateX(10px);
         }
 
-        .project-card:hover::before {
-            opacity: 1;
+        .news-date {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent);
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
         }
 
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 40px rgba(0, 255, 255, 0.3);
-        }
-
-        .project-title {
+        .news-title {
             font-family: 'Orbitron', sans-serif;
             font-size: 1.8rem;
             font-weight: 700;
@@ -411,82 +194,26 @@
             letter-spacing: 2px;
         }
 
-        .project-description {
-            color: var(--text-dim);
-            margin-bottom: 1.5rem;
+        .news-content {
+            color: var(--text);
             font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
         }
 
-        .project-tags {
+        .news-tags {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
-            margin-bottom: 1.5rem;
         }
 
         .tag {
             background: rgba(0, 255, 255, 0.1);
             border: 1px solid var(--primary);
             padding: 0.3rem 1rem;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-family: 'Orbitron', sans-serif;
             letter-spacing: 1px;
-        }
-
-        .project-link {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: gap 0.3s;
-        }
-
-        .project-link:hover {
-            gap: 1rem;
-        }
-
-        /* Contact Section */
-        #contact {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.03) 0%, transparent 100%);
-            text-align: center;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .contact-item {
-            padding: 2rem;
-            background: rgba(0, 255, 255, 0.05);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            transition: all 0.3s;
-        }
-
-        .contact-item:hover {
-            background: rgba(0, 255, 255, 0.1);
-            border-color: var(--primary);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
-        }
-
-        .contact-item a {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 1.2rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        .contact-label {
-            color: var(--text-dim);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 0.5rem;
         }
 
         /* Footer */
@@ -502,492 +229,98 @@
             letter-spacing: 1px;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            nav ul {
-                gap: 1.5rem;
-            }
-
-            section {
+            main {
                 padding: 3rem 5%;
             }
 
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+            .news-article {
+                padding: 2rem;
             }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            h1 {
-                letter-spacing: 4px;
-            }
-
-            .section-title {
-                letter-spacing: 2px;
-            }
-        }
-
-        /* Scroll Animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in:nth-child(1) { animation-delay: 0.1s; }
-        .fade-in:nth-child(2) { animation-delay: 0.2s; }
-        .fade-in:nth-child(3) { animation-delay: 0.3s; }
-        .fade-in:nth-child(4) { animation-delay: 0.4s; }
-
-        /* Custom Cursor Effect */
-        .cursor-glow {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.6;
-            transition: transform 0.1s;
-        }
-
-        /* Music Control Button */
-        .music-control {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 60px;
-            height: 60px;
-            background: rgba(10, 10, 15, 0.9);
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: var(--primary);
-            transition: all 0.3s;
-            z-index: 1000;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .music-control:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px var(--primary);
-        }
-
-        .music-control.playing {
-            animation: pulse 2s ease-in-out infinite, rotate 20s linear infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.5); }
-            50% { box-shadow: 0 0 25px rgba(0, 255, 255, 0.8); }
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .music-control::before {
-            content: '♪';
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-        }
-
-        .music-control.playing::before {
-            content: '♫';
         }
     </style>
 </head>
 <body>
     <div class="bg-grid"></div>
     <div class="scanline"></div>
-    <div class="cursor-glow" id="cursorGlow"></div>
-    <div class="music-control" id="musicControl" title="Toggle 8-bit music"></div>
 
-    <nav>
-        <ul>
-            <li><a href="#hero">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="news.html">News</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+    <header>
+        <a href="index.html" class="back-button">← Back to Portfolio</a>
+    </header>
 
     <main>
-        <section id="hero">
-            <div class="glitch-wrapper">
-                <h1 class="glitch" data-text="YOUR NAME">YOUR NAME</h1>
-            </div>
-            <p class="subtitle">Developer • Designer • Innovator</p>
-            <a href="#projects" class="cta-button">View Projects</a>
-        </section>
+        <h1>News & Updates</h1>
+        
+        <div class="news-grid">
+            <article class="news-article">
+                <div class="news-date">February 04, 2026</div>
+                <h2 class="news-title">Portfolio Updated with Latest Projects</h2>
+                <p class="news-content">
+                    Excited to announce the latest update to my portfolio featuring three major projects completed in Q4 2025. Each project showcases advanced implementations of modern web technologies, AI integration, and cloud-native architectures. The new portfolio design features a futuristic cyberpunk aesthetic with interactive elements and real-time generated chiptune music.
+                </p>
+                <div class="news-tags">
+                    <span class="tag">Portfolio</span>
+                    <span class="tag">Web Development</span>
+                    <span class="tag">UI/UX</span>
+                </div>
+            </article>
 
-        <section id="about">
-            <h2 class="section-title fade-in">About Me</h2>
-            <div class="about-content">
-                <div class="about-text fade-in">
-                    <p>I'm a passionate developer focused on creating cutting-edge solutions that push the boundaries of technology. With expertise spanning multiple domains, I transform complex problems into elegant, innovative applications.</p>
-                    <p style="margin-top: 1rem;">My work combines technical precision with creative vision, delivering projects that not only function flawlessly but inspire and engage users in meaningful ways.</p>
+            <article class="news-article">
+                <div class="news-date">January 28, 2026</div>
+                <h2 class="news-title">New AI/ML Project Launching Q2 2026</h2>
+                <p class="news-content">
+                    Currently developing an innovative machine learning platform that will revolutionize data analysis workflows. The project leverages cutting-edge transformer architectures and implements custom training pipelines for domain-specific applications. Beta testing begins in March with a public launch scheduled for May 2026.
+                </p>
+                <div class="news-tags">
+                    <span class="tag">AI/ML</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">TensorFlow</span>
                 </div>
-                <div class="skills-grid fade-in">
-                    <div class="skill-card">JavaScript</div>
-                    <div class="skill-card">Python</div>
-                    <div class="skill-card">React</div>
-                    <div class="skill-card">Node.js</div>
-                    <div class="skill-card">AI/ML</div>
-                    <div class="skill-card">Cloud</div>
-                    <div class="skill-card">DevOps</div>
-                    <div class="skill-card">UI/UX</div>
-                </div>
-            </div>
-        </section>
+            </article>
 
-        <section id="projects">
-            <h2 class="section-title fade-in">Featured Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card fade-in">
-                    <h3 class="project-title">Project Alpha</h3>
-                    <p class="project-description">An innovative platform leveraging AI to revolutionize data analysis and visualization. Built with modern web technologies for maximum performance.</p>
-                    <div class="project-tags">
-                        <span class="tag">React</span>
-                        <span class="tag">TensorFlow</span>
-                        <span class="tag">D3.js</span>
-                    </div>
-                    <a href="#" class="project-link">View Project →</a>
+            <article class="news-article">
+                <div class="news-date">January 15, 2026</div>
+                <h2 class="news-title">Speaking at Tech Conference Next Month</h2>
+                <p class="news-content">
+                    Honored to be selected as a keynote speaker at the upcoming Future Tech Summit 2026. My presentation will cover "Building Resilient Microservices: Lessons from Production." The talk will dive deep into real-world challenges, solutions, and best practices for designing and maintaining distributed systems at scale.
+                </p>
+                <div class="news-tags">
+                    <span class="tag">Conference</span>
+                    <span class="tag">Public Speaking</span>
+                    <span class="tag">Microservices</span>
                 </div>
+            </article>
 
-                <div class="project-card fade-in">
-                    <h3 class="project-title">Project Beta</h3>
-                    <p class="project-description">Real-time collaborative workspace with advanced synchronization capabilities. Designed for distributed teams requiring seamless interaction.</p>
-                    <div class="project-tags">
-                        <span class="tag">Node.js</span>
-                        <span class="tag">WebSocket</span>
-                        <span class="tag">MongoDB</span>
-                    </div>
-                    <a href="#" class="project-link">View Project →</a>
+            <article class="news-article">
+                <div class="news-date">December 20, 2025</div>
+                <h2 class="news-title">Open Source Contributions Milestone</h2>
+                <p class="news-content">
+                    Reached 1000+ commits across various open source projects this year! Major contributions include enhancements to popular React libraries, bug fixes in Node.js ecosystem tools, and documentation improvements for emerging frameworks. Committed to continuing active participation in the open source community throughout 2026.
+                </p>
+                <div class="news-tags">
+                    <span class="tag">Open Source</span>
+                    <span class="tag">GitHub</span>
+                    <span class="tag">Community</span>
                 </div>
+            </article>
 
-                <div class="project-card fade-in">
-                    <h3 class="project-title">Project Gamma</h3>
-                    <p class="project-description">Cloud-native microservices architecture enabling scalable, resilient applications. Implements cutting-edge DevOps practices.</p>
-                    <div class="project-tags">
-                        <span class="tag">Kubernetes</span>
-                        <span class="tag">Docker</span>
-                        <span class="tag">AWS</span>
-                    </div>
-                    <a href="#" class="project-link">View Project →</a>
+            <article class="news-article">
+                <div class="news-date">December 01, 2025</div>
+                <h2 class="news-title">Featured in Developer Spotlight Magazine</h2>
+                <p class="news-content">
+                    Thrilled to be featured in this month's Developer Spotlight Magazine! The article covers my journey from learning to code to building production-scale applications, and discusses the importance of continuous learning in the rapidly evolving tech landscape. Read about my approach to problem-solving and tips for aspiring developers.
+                </p>
+                <div class="news-tags">
+                    <span class="tag">Press</span>
+                    <span class="tag">Interview</span>
+                    <span class="tag">Career</span>
                 </div>
-            </div>
-        </section>
-
-        <section id="contact">
-            <h2 class="section-title fade-in">Get In Touch</h2>
-            <div class="contact-grid">
-                <div class="contact-item fade-in">
-                    <div class="contact-label">Email</div>
-                    <a href="/cdn-cgi/l/email-protection#20594f55520e454d41494c604558414d504c450e434f4d"><span class="__cf_email__" data-cfemail="354c5a40471b5058545c5975504d54584559501b565a58">[email&#160;protected]</span></a>
-                </div>
-                <div class="contact-item fade-in">
-                    <div class="contact-label">GitHub</div>
-                    <a href="https://github.com/yourusername" target="_blank">@yourusername</a>
-                </div>
-                <div class="contact-item fade-in">
-                    <div class="contact-label">LinkedIn</div>
-                    <a href="https://linkedin.com/in/yourusername" target="_blank">in/yourusername</a>
-                </div>
-            </div>
-        </section>
+            </article>
+        </div>
     </main>
 
     <footer>
         <p>&copy; 2026 Your Name. Designed with futuristic precision.</p>
     </footer>
-
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-        // 8-bit Amiga-style Music Generator
-        class ChiptunePlayer {
-            constructor() {
-                this.audioContext = null;
-                this.isPlaying = false;
-                this.masterGain = null;
-                this.tempo = 125; // BPM
-                this.stepDuration = (60 / this.tempo) / 4; // 16th notes
-                this.currentStep = 0;
-                
-                // Amiga-inspired chord progression and melody
-                this.progression = [
-                    { root: 261.63, type: 'minor' },  // C minor
-                    { root: 293.66, type: 'minor' },  // D minor
-                    { root: 246.94, type: 'major' },  // B major
-                    { root: 293.66, type: 'major' }   // D major
-                ];
-                
-                // Lead melody pattern (MOD tracker style)
-                this.melodyPattern = [
-                    523.25, 587.33, 659.25, 783.99, 659.25, 587.33,
-                    523.25, 466.16, 523.25, 587.33, 523.25, 466.16,
-                    523.25, 587.33, 659.25, 880.00, 783.99, 659.25,
-                    587.33, 523.25, 466.16, 392.00, 466.16, 523.25
-                ];
-                
-                // Bassline pattern
-                this.bassPattern = [
-                    1, 0, 0, 0, 1, 0, 1, 0,
-                    1, 0, 0, 0, 1, 0, 1, 0
-                ];
-                
-                // Arpeggio pattern for chords
-                this.arpeggioPattern = [0, 2, 4, 2]; // root, third, fifth, third
-            }
-            
-            init() {
-                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                this.masterGain = this.audioContext.createGain();
-                this.masterGain.gain.value = 0.15; // Subtle background volume
-                this.masterGain.connect(this.audioContext.destination);
-            }
-            
-            getChordNote(chord, index) {
-                const intervals = chord.type === 'minor' ? [0, 3, 7] : [0, 4, 7];
-                const semitoneRatio = Math.pow(2, intervals[index] / 12);
-                return chord.root * semitoneRatio;
-            }
-            
-            createSquareWave(frequency, startTime, duration, volume = 0.3) {
-                const osc = this.audioContext.createOscillator();
-                const gain = this.audioContext.createGain();
-                
-                osc.type = 'square';
-                osc.frequency.value = frequency;
-                
-                // ADSR envelope for authentic chip sound
-                gain.gain.setValueAtTime(0, startTime);
-                gain.gain.linearRampToValueAtTime(volume, startTime + 0.005);
-                gain.gain.linearRampToValueAtTime(volume * 0.7, startTime + 0.05);
-                gain.gain.setValueAtTime(volume * 0.7, startTime + duration - 0.05);
-                gain.gain.linearRampToValueAtTime(0, startTime + duration);
-                
-                osc.connect(gain);
-                gain.connect(this.masterGain);
-                
-                osc.start(startTime);
-                osc.stop(startTime + duration);
-                
-                return osc;
-            }
-            
-            createPulseWave(frequency, startTime, duration, volume = 0.2) {
-                const osc = this.audioContext.createOscillator();
-                const gain = this.audioContext.createGain();
-                
-                osc.type = 'square';
-                osc.frequency.value = frequency;
-                
-                // Pulse width modulation effect
-                gain.gain.setValueAtTime(0, startTime);
-                gain.gain.linearRampToValueAtTime(volume, startTime + 0.01);
-                gain.gain.setValueAtTime(volume * 0.5, startTime + duration - 0.02);
-                gain.gain.linearRampToValueAtTime(0, startTime + duration);
-                
-                osc.connect(gain);
-                gain.connect(this.masterGain);
-                
-                osc.start(startTime);
-                osc.stop(startTime + duration);
-                
-                return osc;
-            }
-            
-            createBass(frequency, startTime, duration) {
-                const osc = this.audioContext.createOscillator();
-                const gain = this.audioContext.createGain();
-                
-                osc.type = 'triangle';
-                osc.frequency.value = frequency / 2; // One octave down
-                
-                gain.gain.setValueAtTime(0, startTime);
-                gain.gain.linearRampToValueAtTime(0.4, startTime + 0.01);
-                gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
-                
-                osc.connect(gain);
-                gain.connect(this.masterGain);
-                
-                osc.start(startTime);
-                osc.stop(startTime + duration);
-                
-                return osc;
-            }
-            
-            scheduleNotes() {
-                if (!this.isPlaying) return;
-                
-                const now = this.audioContext.currentTime;
-                const scheduleAhead = 0.5;
-                
-                while (this.nextNoteTime < now + scheduleAhead) {
-                    const chordIndex = Math.floor(this.currentStep / 16) % this.progression.length;
-                    const chord = this.progression[chordIndex];
-                    const stepInChord = this.currentStep % 16;
-                    
-                    // Arpeggio (main chiptune sound)
-                    const arpIndex = stepInChord % 4;
-                    const arpNote = this.getChordNote(chord, this.arpeggioPattern[arpIndex]);
-                    this.createSquareWave(arpNote, this.nextNoteTime, this.stepDuration * 0.9, 0.15);
-                    
-                    // Lead melody (plays on certain steps)
-                    if (stepInChord % 2 === 0) {
-                        const melodyIndex = Math.floor(this.currentStep / 2) % this.melodyPattern.length;
-                        const melodyNote = this.melodyPattern[melodyIndex];
-                        this.createPulseWave(melodyNote, this.nextNoteTime, this.stepDuration * 1.8, 0.12);
-                    }
-                    
-                    // Bassline
-                    if (this.bassPattern[stepInChord % this.bassPattern.length] === 1) {
-                        this.createBass(chord.root, this.nextNoteTime, this.stepDuration * 2);
-                    }
-                    
-                    this.nextNoteTime += this.stepDuration;
-                    this.currentStep++;
-                }
-                
-                requestAnimationFrame(() => this.scheduleNotes());
-            }
-            
-            start() {
-                if (this.isPlaying) return;
-                
-                if (!this.audioContext) {
-                    this.init();
-                }
-                
-                // Resume AudioContext if suspended (browser autoplay policy)
-                if (this.audioContext.state === 'suspended') {
-                    this.audioContext.resume().then(() => {
-                        console.log('🎵 Chiptune music started!');
-                    });
-                }
-                
-                this.isPlaying = true;
-                this.currentStep = 0;
-                this.nextNoteTime = this.audioContext.currentTime;
-                this.scheduleNotes();
-                console.log('🎵 Music player started');
-            }
-            
-            stop() {
-                this.isPlaying = false;
-                console.log('🔇 Music player stopped');
-            }
-            
-            toggle() {
-                if (this.isPlaying) {
-                    this.stop();
-                } else {
-                    this.start();
-                }
-            }
-        }
-
-        // Initialize music player
-        const musicPlayer = new ChiptunePlayer();
-        const musicControl = document.getElementById('musicControl');
-        
-        let musicStarted = false;
-        let autoStartDone = false;
-        
-        // Music control button handler
-        musicControl.addEventListener('click', (e) => {
-            console.log('Music button clicked');
-            
-            if (!musicStarted) {
-                musicPlayer.start();
-                musicStarted = true;
-                musicControl.classList.add('playing');
-            } else {
-                musicPlayer.toggle();
-                musicControl.classList.toggle('playing');
-            }
-        }, true); // Use capture phase
-        
-        // Auto-start music on any click (only once)
-        document.addEventListener('click', (e) => {
-            if (autoStartDone) return;
-            if (musicControl.contains(e.target)) return;
-            
-            if (!musicStarted) {
-                console.log('Auto-starting music');
-                musicPlayer.start();
-                musicStarted = true;
-                musicControl.classList.add('playing');
-                autoStartDone = true;
-            }
-        });
-        
-        // Also try keyboard and touch
-        document.addEventListener('keydown', (e) => {
-            if (!musicStarted && !autoStartDone) {
-                console.log('Auto-starting music from keyboard');
-                musicPlayer.start();
-                musicStarted = true;
-                musicControl.classList.add('playing');
-                autoStartDone = true;
-            }
-        }, { once: true });
-        
-        document.addEventListener('touchstart', (e) => {
-            if (autoStartDone) return;
-            if (musicControl.contains(e.target)) return;
-            
-            if (!musicStarted) {
-                console.log('Auto-starting music from touch');
-                musicPlayer.start();
-                musicStarted = true;
-                musicControl.classList.add('playing');
-                autoStartDone = true;
-            }
-        }, { once: true });
-
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        // Custom cursor glow effect
-        const cursorGlow = document.getElementById('cursorGlow');
-        document.addEventListener('mousemove', (e) => {
-            cursorGlow.style.left = e.clientX - 10 + 'px';
-            cursorGlow.style.top = e.clientY - 10 + 'px';
-        });
-
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '
+</body>
+</html>
