@@ -870,24 +870,42 @@
             }
             
             start() {
-                if (this.isPlaying) return;
-                
-                if (!this.audioContext) {
-                    this.init();
+                if (this.isPlaying) {
+                    console.log('Music already playing');
+                    return;
                 }
                 
-                // Resume AudioContext if suspended (browser autoplay policy)
-                if (this.audioContext.state === 'suspended') {
-                    this.audioContext.resume().then(() => {
-                        console.log('🎵 Chiptune music started!');
-                    });
+                try {
+                    if (!this.audioContext) {
+                        console.log('Initializing AudioContext...');
+                        this.init();
+                    }
+                    
+                    console.log('AudioContext state:', this.audioContext.state);
+                    
+                    // Resume AudioContext if suspended (browser autoplay policy)
+                    if (this.audioContext.state === 'suspended') {
+                        console.log('Resuming suspended AudioContext...');
+                        this.audioContext.resume().then(() => {
+                            console.log('✅ AudioContext resumed! State:', this.audioContext.state);
+                            this.isPlaying = true;
+                            this.currentStep = 0;
+                            this.nextNoteTime = this.audioContext.currentTime;
+                            this.scheduleNotes();
+                            console.log('🎵 Chiptune music started!');
+                        }).catch(err => {
+                            console.error('Failed to resume AudioContext:', err);
+                        });
+                    } else {
+                        this.isPlaying = true;
+                        this.currentStep = 0;
+                        this.nextNoteTime = this.audioContext.currentTime;
+                        this.scheduleNotes();
+                        console.log('🎵 Music player started');
+                    }
+                } catch (error) {
+                    console.error('Error starting music:', error);
                 }
-                
-                this.isPlaying = true;
-                this.currentStep = 0;
-                this.nextNoteTime = this.audioContext.currentTime;
-                this.scheduleNotes();
-                console.log('🎵 Music player started');
             }
             
             stop() {
@@ -909,59 +927,39 @@
         const musicControl = document.getElementById('musicControl');
         
         let musicStarted = false;
-        let autoStartDone = false;
         
-        // Music control button handler
-        musicControl.addEventListener('click', (e) => {
-            console.log('Music button clicked');
+        // Music control button handler - MAIN control
+        musicControl.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('🎵 Music button clicked! musicStarted:', musicStarted);
             
             if (!musicStarted) {
+                console.log('Starting music for first time...');
                 musicPlayer.start();
                 musicStarted = true;
                 musicControl.classList.add('playing');
             } else {
+                console.log('Toggling music...');
                 musicPlayer.toggle();
                 musicControl.classList.toggle('playing');
             }
-        }, true); // Use capture phase
-        
-        // Auto-start music on any click (only once)
-        document.addEventListener('click', (e) => {
-            if (autoStartDone) return;
-            if (musicControl.contains(e.target)) return;
-            
-            if (!musicStarted) {
-                console.log('Auto-starting music');
-                musicPlayer.start();
-                musicStarted = true;
-                musicControl.classList.add('playing');
-                autoStartDone = true;
-            }
         });
         
-        // Also try keyboard and touch
-        document.addEventListener('keydown', (e) => {
-            if (!musicStarted && !autoStartDone) {
-                console.log('Auto-starting music from keyboard');
-                musicPlayer.start();
-                musicStarted = true;
-                musicControl.classList.add('playing');
-                autoStartDone = true;
-            }
-        }, { once: true });
-        
-        document.addEventListener('touchstart', (e) => {
-            if (autoStartDone) return;
-            if (musicControl.contains(e.target)) return;
+        // Auto-start music on first page click (excluding music button)
+        let autoStartTriggered = false;
+        document.addEventListener('click', function(e) {
+            if (autoStartTriggered || musicStarted) return;
+            if (e.target === musicControl || musicControl.contains(e.target)) return;
             
-            if (!musicStarted) {
-                console.log('Auto-starting music from touch');
-                musicPlayer.start();
-                musicStarted = true;
-                musicControl.classList.add('playing');
-                autoStartDone = true;
-            }
-        }, { once: true });
+            console.log('Auto-starting music from page click');
+            musicPlayer.start();
+            musicStarted = true;
+            autoStartTriggered = true;
+            musicControl.classList.add('playing');
+        });
+
 
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
