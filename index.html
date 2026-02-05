@@ -77,7 +77,7 @@
         /* Navigation */
         nav {
             position: fixed;
-            top: 35px;
+            top: 0;
             width: 100%;
             padding: 1.5rem 5%;
             background: rgba(10, 10, 15, 0.85);
@@ -135,7 +135,7 @@
         main {
             position: relative;
             z-index: 2;
-            padding-top: 115px;
+            padding-top: 80px;
         }
 
         section {
@@ -562,150 +562,6 @@
             transition: transform 0.1s;
         }
 
-        /* News Ticker Ribbon */
-        .news-ticker {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 35px;
-            background: linear-gradient(90deg, 
-                rgba(255, 0, 255, 0.2) 0%, 
-                rgba(0, 255, 255, 0.2) 50%, 
-                rgba(255, 0, 255, 0.2) 100%);
-            border-bottom: 2px solid var(--primary);
-            overflow: hidden;
-            z-index: 10000;
-            cursor: pointer;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .news-ticker::after {
-            content: 'CLICK FOR MORE ▸';
-            position: absolute;
-            right: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--accent);
-            opacity: 0.7;
-            animation: blink 2s ease-in-out infinite;
-        }
-
-        .news-ticker:hover {
-            background: linear-gradient(90deg, 
-                rgba(255, 0, 255, 0.3) 0%, 
-                rgba(0, 255, 255, 0.3) 50%, 
-                rgba(255, 0, 255, 0.3) 100%);
-            height: 40px;
-            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
-        }
-
-        .news-ticker::before {
-            content: 'BREAKING';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            padding: 0 1.5rem;
-            background: var(--secondary);
-            color: var(--bg-dark);
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-            display: flex;
-            align-items: center;
-            z-index: 2;
-            animation: blink 2s ease-in-out infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
-        .news-ticker-content {
-            display: flex;
-            align-items: center;
-            height: 100%;
-            white-space: nowrap;
-            animation: scroll-left 40s linear infinite;
-            padding-left: 100%;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            color: var(--text);
-        }
-
-        .news-ticker:hover .news-ticker-content {
-            animation-play-state: paused;
-        }
-
-        @keyframes scroll-left {
-            from { transform: translateX(0); }
-            to { transform: translateX(-100%); }
-        }
-
-        .news-item {
-            display: inline-flex;
-            align-items: center;
-            margin-right: 3rem;
-            padding-left: 8rem;
-        }
-
-        .news-item::before {
-            content: '▸';
-            color: var(--primary);
-            margin-right: 0.5rem;
-            font-size: 1.2rem;
-        }
-
-        .news-item:first-child {
-            padding-left: 0;
-        }
-
-        /* Adjust main content for ticker */
-        nav {
-            top: 35px;
-        }
-
-        main {
-            padding-top: 115px;
-        }
-
-        @media (max-width: 768px) {
-            .news-ticker {
-                height: 30px;
-            }
-
-            .news-ticker:hover {
-                height: 35px;
-            }
-
-            .news-ticker::before {
-                padding: 0 1rem;
-                font-size: 0.65rem;
-            }
-
-            .news-ticker-content {
-                font-size: 0.85rem;
-            }
-
-            nav {
-                top: 30px;
-            }
-
-            main {
-                padding-top: 110px;
-            }
-        }
-
         /* Music Control Button */
         .music-control {
             position: fixed;
@@ -758,19 +614,6 @@
     </style>
 </head>
 <body>
-    <div class="news-ticker" id="newsTicker">
-        <div class="news-ticker-content">
-            <span class="news-item">Portfolio updated with latest projects and achievements</span>
-            <span class="news-item">New AI/ML project launching Q2 2026</span>
-            <span class="news-item">Speaking at Tech Conference next month</span>
-            <span class="news-item">Open source contributions exceeding 1000+ commits</span>
-            <span class="news-item">Featured in Developer Spotlight Magazine</span>
-            <span class="news-item">Portfolio updated with latest projects and achievements</span>
-            <span class="news-item">New AI/ML project launching Q2 2026</span>
-            <span class="news-item">Speaking at Tech Conference next month</span>
-        </div>
-    </div>
-
     <div class="bg-grid"></div>
     <div class="scanline"></div>
     <div class="cursor-glow" id="cursorGlow"></div>
@@ -781,6 +624,7 @@
             <li><a href="#hero">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#projects">Projects</a></li>
+            <li><a href="news.html">News</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </nav>
@@ -1063,16 +907,9 @@
         // Initialize music player
         const musicPlayer = new ChiptunePlayer();
         const musicControl = document.getElementById('musicControl');
-        const newsTicker = document.getElementById('newsTicker');
         
         let musicStarted = false;
         let autoStartDone = false;
-        
-        // News ticker click handler
-        newsTicker.addEventListener('click', (e) => {
-            console.log('News ticker clicked');
-            window.location.href = 'news.html';
-        }, true); // Use capture phase
         
         // Music control button handler
         musicControl.addEventListener('click', (e) => {
@@ -1088,11 +925,9 @@
             }
         }, true); // Use capture phase
         
-        // Auto-start music on any other click (only once)
+        // Auto-start music on any click (only once)
         document.addEventListener('click', (e) => {
-            // Don't auto-start if clicking on ticker or music button
             if (autoStartDone) return;
-            if (newsTicker.contains(e.target)) return;
             if (musicControl.contains(e.target)) return;
             
             if (!musicStarted) {
@@ -1117,7 +952,6 @@
         
         document.addEventListener('touchstart', (e) => {
             if (autoStartDone) return;
-            if (newsTicker.contains(e.target)) return;
             if (musicControl.contains(e.target)) return;
             
             if (!musicStarted) {
